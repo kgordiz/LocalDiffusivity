@@ -1,0 +1,10 @@
+local_diffusion_analysis/
+├── local_diffusion_analysis/
+│   ├── __init__.py
+│   ├── file_io.py
+│   ├── data_processing.py
+│   └── main.py
+├── README.md
+├── requirements.txt
+└── setup.py
+
