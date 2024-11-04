@@ -22,7 +22,7 @@ LocalDiffusivity/
 To install, clone this repository and install the dependencies listed in `requirements.txt`:
 
 ```bash
-git clone <repository_url>
+git clone https://github.com/kgordiz/LocalDiffusivity
 cd LocalDiffusivity
 pip install -r requirements.txt
 ```
