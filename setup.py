@@ -13,6 +13,6 @@ setup(
     description="A package for local diffusion analysis in MD simulations",
     license="MIT",
     keywords="molecular dynamics diffusion analysis",
-    url="https://github.com/yourusername/local_diffusion_analysis",
+    url="https://github.com/kgordiz/LocalDiffusivity",
 )
 

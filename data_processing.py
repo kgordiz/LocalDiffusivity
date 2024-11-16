@@ -321,7 +321,7 @@ def mindx_calc(m_range, r_real, Natoms, Ntimesteps, dt, envLiLa, envj_length):
     
     return Tij
 
-def calculate_Tij_parallel(r_real, Natoms, Ntimesteps, dt_values, envLiLa, envj_length, num_processes=4):
+def calculate_Tij_parallel(r_real, Natoms, Ntimesteps, envLiLa, envj_length, num_processes=4):
     """
     Manages parallel processing for Tij calculation across specified time steps.
     
@@ -337,23 +337,29 @@ def calculate_Tij_parallel(r_real, Natoms, Ntimesteps, dt_values, envLiLa, envj_
     Writes:
     - Each calculated Tij matrix is saved as a text file named "Tij_<dt>.txt".
     """
-    for dt in dt_values:
-        print(f"Calculating Tij for dt={dt}")
+def calculate_Tij_parallel(r_real, Natoms, Ntimesteps, envLiLa, envj_length, num_processes=4):
+    for dt in range(Ntimesteps):
+        
+        dt_values = [5, 50] + list(range(100, Ntimesteps, 100))
+        if dt in dt_values:
+            print(f"Calculating Tij for dt={dt}")
 
-        # Define the range for parallel processing and split into chunks
-        m_range = range(Ntimesteps - dt)
-        chunks = split_into_chunks(m_range, num_processes)
+            # Define the range for parallel processing and split into chunks
+            m_range = range(Ntimesteps - dt)
+            chunks = split_into_chunks(m_range, num_processes)
+            
+            #print(dt, Ntimesteps, m_range, chunks)
+            with Pool(num_processes) as pool:
+                results = pool.starmap(mindx_calc, [(chunk, r_real, Natoms, Ntimesteps, dt, envLiLa, envj_length) for chunk in chunks])
 
-        with Pool(num_processes) as pool:
-            results = pool.starmap(mindx_calc, [(chunk, r_real, Natoms, Ntimesteps, dt, envLiLa, envj_length) for chunk in chunks])
+            # Sum results from all processes to get the final Tij matrix
+            
+            Tij = sum(results)
 
-        # Sum results from all processes to get the final Tij matrix
-        Tij = sum(results)
-
-        # Save Tij matrix to a file
-        with open(f"Tij_{dt}.txt", "w") as writefile_Tij:
-            for row in Tij:
-                writefile_Tij.write(" ".join(map(str, row)) + "\n")
+            # Save Tij matrix to a file
+            with open(f"Tij_{dt}.txt", "w") as writefile_Tij:
+                for row in Tij:
+                    writefile_Tij.write(" ".join(map(str, row)) + "\n")
 
 # Time and Save Functions
 def create_time_array(Nsnaps, nsample, LAMMPS_timestep):
