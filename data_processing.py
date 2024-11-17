@@ -418,6 +418,7 @@ def r_real_env_prjctd_call(chunk, Nsnaps, r_real_reformatted, r_real, Env_cont_v
     - chunk (list): Indices of Li atoms in the current chunk.
     - Nsnaps (int): Number of snapshots.
     - r_real_reformatted (numpy.ndarray): Reformatted unwrapped coordinates, shape (NLi * Nsnaps, 3).
+    - r_real (numpy.ndarray): Unwrapped coordinates of Li atoms, shape (Nsnaps, NLi, 3).
     - Env_cont_val (numpy.ndarray): Values representing the environment (e.g., coordination values).
     - Env_cont_indx (numpy.ndarray): Indices representing environment states.
     - topWhat (int): Number of top environments to consider.
